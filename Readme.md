@@ -1,4 +1,4 @@
-# React JS Course
+# React JS Course Notes
 
 # Creating React App
 
