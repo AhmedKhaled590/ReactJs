@@ -4,7 +4,6 @@ import {
     Button, Modal, ModalHeader, ModalBody,
     Form, FormGroup, Input, Label
 } from 'reactstrap'; import { NavLink } from 'react-router-dom';
-import Home from './Home';
 
 class Header extends Component {
     constructor(props) {
