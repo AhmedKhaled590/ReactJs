@@ -1,0 +1,61 @@
+{
+  "akida": [
+    {
+      "id": 1,
+      "title": "العقيدة الوسطى",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/fktiegwkobqh"
+    }
+  ],
+  "fiqh": [
+    {
+      "id": 7,
+      "title": "شرح الاختيار لتعليل المختار | فقه حنفي",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/alekhteyar"
+    }
+  ],
+  "hadith": [
+    {
+      "id": 5,
+      "title": "شرح نزهة النظر",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/qnkwl9tqkkxu"
+    }
+  ],
+  "general": [
+    {
+      "id": 3,
+      "title": "لقاءات شباب الجامعة، نقاشات حول العقيدة والدين والحياة",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/km6q9oxmpygm"
+    }
+  ],
+  "tazkia": [
+    {
+      "id": 2,
+      "title": "الصوم ظاهرا وباطنا",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/c49k1m2ytujk"
+    },
+    {
+      "id": 4,
+      "title": "المقصد الأسنى في شرح أسماء الله الحسنى-للإمام الغزالي",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/wrl5i4mbrwxb"
+    }
+  ],
+  "kotob": [
+    {
+      "id": 6,
+      "title": "مناقشات كتب : حديث نفس",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/ajr4ffasjxlk"
+    },
+    {
+      "id": "2021-08-04T16:32:08.171Z",
+      "title": "مناقشات كتب | كيف وصل إلينا هذا الدين",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/yp80luhbqvf3",
+      "category": "kotob"
+    },
+    {
+      "id": "2021-08-04T16:35:05.687Z",
+      "title": "مناقشة كتاب | رحلة إلى معرفة الله",
+      "link": "https://soundcloud.com/doros-sheikh-alaa/sets/re7la",
+      "category": "kotob"
+    }
+  ]
+}
