@@ -29,6 +29,7 @@ app.post('/list', (req, res) => {
         if (err)
             res.statue(500).send(err);
         else
+
             res.status(201).send(data);
     })
 })
@@ -40,8 +41,9 @@ app.get('/list', (req, res) => {
     Cards.find((err, data) => {
         if (err)
             res.statue(500).send(err);
-        else
+        else {
             res.status(200).send(data);
+        }
     })
 })
 
