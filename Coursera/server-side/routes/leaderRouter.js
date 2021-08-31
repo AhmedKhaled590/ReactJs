@@ -5,13 +5,15 @@ const app = express();
 const leaderRouter = express.Router();
 var mongoose = require("mongoose");
 const leaders = require("../models/leaders");
+var authenticate = require("../authenticate");
+var cors = require('./cors')
 
 app.use(bodyParser.json());
 
 leaderRouter
   .route("/")
-
-  .get((req, res, next) => {
+  .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
+  .get(cors.cors,(req, res, next) => {
     leaders
       .find({})
       .then(
@@ -27,46 +29,64 @@ leaderRouter
       });
   })
 
-  .post((req, res, next) => {
-    leaders
-      .create(req.body)
-      .then(
-        (leaders) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(leaders);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => {
-        next(err);
-      });
+  .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      leaders
+        .create(req.body)
+        .then(
+          (leaders) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(leaders);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   })
 
-  .put((req, res, next) => {
-    res.statusCode = 403;
-    res.end("PUT operation not supported on /leaderes");
+  .put(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      res.statusCode = 403;
+      res.end("PUT operation not supported on /leaderes");
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   })
 
-  .delete((req, res, next) => {
-    leaders
-      .remove({})
-      .then(
-        (resp) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(resp);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => {
-        next(err);
-      });
+  .delete(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      leaders
+        .remove({})
+        .then(
+          (resp) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(resp);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   });
 
 leaderRouter
   .route("/:leaderId")
-  .get((req, res, next) => {
+  .get(cors.cors,(req, res, next) => {
     leaders
       .findById(req.params.leaderId)
       .then(
@@ -82,41 +102,61 @@ leaderRouter
       });
   })
 
-  .post((req, res, next) => {
-    res.statusCode = 403;
-    res.end("POST operation not supported on /leaderes/" + req.params.leaderId);
+  .post(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      res.statusCode = 403;
+      res.end(
+        "POST operation not supported on /leaderes/" + req.params.leaderId
+      );
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   })
 
-  .put((req, res, next) => {
-    leaders
-      .findByIdAndUpdate(req.params.leaderId, { $set: req.body, new: true })
-      .then(
-        (leaders) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(leaders);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => {
-        next(err);
-      });
+  .put(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      leaders
+        .findByIdAndUpdate(req.params.leaderId, { $set: req.body, new: true })
+        .then(
+          (leaders) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(leaders);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   })
 
-  .delete((req, res, next) => {
-    leaders
-      .findByIdAndRemove(req.params.leaderId)
-      .then(
-        (resp) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(resp);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => {
-        next(err);
-      });
+  .delete(cors.corsWithOptions,authenticate.verifyUser, (req, res, next) => {
+    if (authenticate.verifyAdmin(req.user)) {
+      leaders
+        .findByIdAndRemove(req.params.leaderId)
+        .then(
+          (resp) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(resp);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      res.statusCode = 403;
+      res.setHeader("Content-Type", "application/text");
+      res.end("You are not authorized to perform this operation!");
+    }
   });
 
 module.exports = leaderRouter;

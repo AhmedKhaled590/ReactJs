@@ -13,6 +13,7 @@ var usersRouter = require("./routes/users");
 var dishRouter = require("./routes/dishRouter");
 var promoRouter = require("./routes/promoRouter");
 var leadersRouter = require("./routes/leaderRouter");
+const uploadRouter = require("./routes/uploadRouter");
 
 var mongoose = require("mongoose");
 var url = "mongodb://localhost:27017/consFusion";
@@ -49,6 +50,16 @@ app.use(
 app.use(password.initialize());
 app.use(password.session());
 
+app.use("*", (req, res, next) => {
+  if (req.secure) return next();
+  else {
+    res.redirect(
+      307,
+      "https://" + req.hostname + ":" + app.get("secPort") + req.url
+    );
+  }
+});
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
@@ -69,6 +80,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/dishes", dishRouter);
 app.use("/promotions", promoRouter);
 app.use("/leaders", leadersRouter);
+app.use("/imageUpload", uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
